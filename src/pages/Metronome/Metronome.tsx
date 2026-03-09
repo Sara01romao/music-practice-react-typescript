@@ -1,8 +1,9 @@
+import { Metronome } from "../../components/Metronome"
 
-export default function Metronome() {
+export default function MetronomePage() {
   return (
     <div>
-      <h1>Metronome</h1>
+      <Metronome/>
     </div>
   );
 }
