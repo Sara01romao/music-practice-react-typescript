@@ -10,7 +10,7 @@ export function ChordDiagram({ chord }: ChordDiagramProps) {
 
   return (
     <div className="flex flex-col items-center gap-2">
-      <span className="font-bold text-lg">{chord}</span>
+      <span className="font-bold text-3xl">{chord}</span>
 
       <svg width="120" height="140">
         {stringX.map((x, i) => (
