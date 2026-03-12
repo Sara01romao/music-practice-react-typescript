@@ -1,5 +1,6 @@
 import { useEffect, useRef, useState, useCallback, useMemo } from "react";
 import { MetronomeSVG } from "./MetronomeSVG";
+import { ChordDiagram } from "./Chord";
 
 export function Metronome() {
   const [bpm, setBpm] = useState(80);
@@ -8,10 +9,10 @@ export function Metronome() {
   const [currentBeat, setCurrentBeat] = useState(0);
   const [currentChord, setCurrentChord] = useState(0);
 
-  const progression = useMemo(() => ["Em", "C", "G", "D"], []); 
+  const progression = useMemo(() => ["Em", "C", "G", "D"], []);
 
   const audioContextRef = useRef<AudioContext | null>(null);
-  const compassCountRef = useRef(0); 
+  const compassCountRef = useRef(0);
 
   const initAudioContext = useCallback(async () => {
     if (!audioContextRef.current) {
@@ -74,23 +75,13 @@ export function Metronome() {
     };
   }, [isPlaying, bpm, beats, playClick]);
 
- 
   useEffect(() => {
     if (currentBeat === 0 && isPlaying && progression.length > 0) {
       compassCountRef.current += 1;
       const novoIndice = (compassCountRef.current - 1) % progression.length;
-      console.log(
-        `🎸 Compasso ${compassCountRef.current}: currentChord = ${novoIndice} (${progression[novoIndice]})`,
-      );
       setCurrentChord(novoIndice);
     }
   }, [currentBeat, isPlaying, progression]);
-
-  useEffect(() => {
-    console.log(
-      `🎵 currentChord mudou para ${currentChord} (${progression[currentChord]})`,
-    );
-  }, [currentChord, progression]);
 
   const toggleMetronome = async () => {
     await initAudioContext();
@@ -142,20 +133,16 @@ export function Metronome() {
         </div>
       </div>
 
-     {progression.length > 0}
-
-      <MetronomeSVG bpmSpeed={bpm} isPlaying={isPlaying} />
-
-      {progression.length > 0 && (
+      {progression.length > 0 ? (
+        <MetronomeSVG bpmSpeed={bpm} isPlaying={isPlaying} />
+      ) : (
         <div className="flex flex-col items-center gap-4">
-          <div
-            className="text-6xl font-bold text-primary"
-            role="status"
-            aria-live="polite"
-          >
-            {progression[currentChord]}
+          <div>
+            <ChordDiagram
+              key={progression[currentChord]}
+              chord={progression[currentChord]}
+            />
           </div>
-
         </div>
       )}
 
