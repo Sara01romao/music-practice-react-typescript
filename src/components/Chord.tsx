@@ -8,6 +8,10 @@ export function ChordDiagram({ chord }: ChordDiagramProps) {
   const stringX = [20, 35, 50, 65, 80, 95];
   const chordData = chordList[chord];
 
+  if (!chordData) {
+    return <div>Acorde não encontrado</div>;
+  }
+
   return (
     <div className="flex flex-col items-center gap-2">
       <span className="font-bold text-3xl">{chord}</span>
