@@ -2,15 +2,19 @@ import { useEffect, useRef, useState, useCallback, useMemo } from "react";
 import { MetronomeSVG } from "./MetronomeSVG";
 import { ChordDiagram } from "./Chord";
 
-export function Metronome() {
+type Progression = {
+   prog: string[]
+}
+
+export function Metronome({prog}:Progression) {
   const [bpm, setBpm] = useState(80);
   const [beats, setBeats] = useState(4);
   const [isPlaying, setIsPlaying] = useState(false);
   const [currentBeat, setCurrentBeat] = useState(0);
   const [currentChord, setCurrentChord] = useState(0);
 
-  const progression = useMemo(() => ["Em", "C", "G", "D"], []);
-
+  const progression = useMemo(() => {return prog ? prog : []}, [prog]);
+  
   const audioContextRef = useRef<AudioContext | null>(null);
   const compassCountRef = useRef(0);
 
@@ -134,8 +138,7 @@ export function Metronome() {
       </div>
 
       {progression.length > 0 ? (
-        <MetronomeSVG bpmSpeed={bpm} isPlaying={isPlaying} />
-      ) : (
+        
         <div className="flex flex-col items-center gap-4">
           <div>
             <ChordDiagram
@@ -144,7 +147,7 @@ export function Metronome() {
             />
           </div>
         </div>
-      )}
+      ):<MetronomeSVG bpmSpeed={bpm} isPlaying={isPlaying} />}
 
       <div className="flex gap-2" aria-label="Batidas">
         {Array.from({ length: beats }).map((_, index) => (
