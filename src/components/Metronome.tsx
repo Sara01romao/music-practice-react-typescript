@@ -1,9 +1,10 @@
 import { useEffect, useRef, useState, useCallback, useMemo } from "react";
 import { MetronomeSVG } from "./MetronomeSVG";
 import { ChordDiagram } from "./Chord";
+import { Pause, Play } from "lucide-react";
 
 type Progression = {
-   prog: string[]
+   prog?: string[];
 }
 
 export function Metronome({prog}:Progression) {
@@ -102,9 +103,7 @@ export function Metronome({prog}:Progression) {
 
   return (
     <div className="flex flex-col items-center gap-6 p-6">
-      <h1 className="text-2xl font-bold">Metrônomo</h1>
-
-      <div className="flex gap-4">
+      <div className="max-w-[300px] w-full px-4 py-1 flex justify-between gap-4 border rounded-lg border-gray-300 ">
         <div className="flex flex-col items-center">
           <label htmlFor="bpm">BPM</label>
           <input
@@ -154,7 +153,7 @@ export function Metronome({prog}:Progression) {
           <div
             key={index}
             className={`w-6 h-6 rounded-full ${
-              index === currentBeat ? "bg-blue-500" : "bg-gray-300"
+              index === currentBeat ? "bg-[#0078D4]" : "bg-gray-300"
             }`}
             aria-label={`Batida ${index + 1}${index === currentBeat ? " (atual)" : ""}`}
           />
@@ -163,10 +162,10 @@ export function Metronome({prog}:Progression) {
 
       <button
         onClick={toggleMetronome}
-        className="bg-blue-500 text-white px-4 py-2 rounded"
+        className={` flex gap-4 text-white px-4 py-2 rounded ${isPlaying ? "bg-[#d43639]": "bg-[#0078D4]" }`}
         aria-label={isPlaying ? "Parar metrônomo" : "Iniciar metrônomo"}
       >
-        {isPlaying ? "Parar" : "Iniciar"}
+        {isPlaying ? <>Parar <Pause/></> :  <>Iniciar <Play/></>}
       </button>
     </div>
   );
