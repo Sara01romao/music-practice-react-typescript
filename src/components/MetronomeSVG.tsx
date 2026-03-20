@@ -8,7 +8,7 @@ export function MetronomeSVG({ bpmSpeed, isPlaying }: MetronomeSVGProps) {
   const animationStyle = isPlaying
     ? {
         transformOrigin: "60px 40px",
-        animation: `swing ${duration / 2}s infinite alternate`
+        animation: `swing ${duration / 2}s infinite alternate`,
       }
     : {
         transformOrigin: "60px 40px",
@@ -22,51 +22,78 @@ export function MetronomeSVG({ bpmSpeed, isPlaying }: MetronomeSVGProps) {
         viewBox="0 0 120 180"
         className="text-gray-800"
       >
-       
-        <polygon
-          points="30,170 90,170 75,20 45,20"
-          fill="#e5e7eb"
-          stroke="#374151"
-          strokeWidth="3"
-        />
-
-        <rect
-          x="25"
-          y="170"
-          width="70"
-          height="10"
-          fill="#374151"
+        <path
+          d="
+      M60 20
+      Q55 20 50 28
+      L20 150
+      Q20 165 35 165
+      L85 165
+      Q100 165 100 150
+      L70 28
+      Q65 20 60 20
+      Z
+    "
+          fill="none"
+          stroke="#111827"
+          strokeWidth="6"
+          strokeLinejoin="round"
         />
 
         <line
           x1="60"
-          y1="40"
+          y1="60"
           x2="60"
-          y2="140"
+          y2="130"
+          stroke="#dae0e9"
+          stroke-width="6"
+          stroke-linecap="round"
+        ></line>
+
+        <line
+          x1="60"
+          y1="60"
+          x2="60"
+          y2="130"
           stroke="#111827"
-          strokeWidth="4"
+          strokeWidth="6"
+          strokeLinecap="round"
           style={animationStyle}
         />
 
-        <circle
-          cx="60"
-          cy="120"
-          r="8"
-          fill="#111827"
+        <circle cx="60" cy="130" r="6" fill="#111827" style={animationStyle} />
+
+        <rect
+          x="54"
+          y="95"
+          width="12"
+          height="6"
+          rx="2"
+          fill="#9ca3af"
+          style={animationStyle}
+        />
+
+        <rect
+          x="54"
+          y="95"
+          width="12"
+          height="6"
+          rx="2"
+          fill="#9ca3af"
           style={animationStyle}
         />
 
         <style>
           {`
-          @keyframes swing {
-            from {
-              transform: rotate(-25deg);
-            }
-            to {
-              transform: rotate(25deg);
-            }
-          }
-          `}
+    @keyframes swing {
+      from {
+        transform: rotate(-30deg);
+      }
+      to {
+        transform: rotate(30deg);
+      }
+    }
+    `}
         </style>
       </svg>
     </div>
