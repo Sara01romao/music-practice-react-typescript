@@ -1,8 +1,8 @@
+import { useParams, type Params } from "react-router-dom";
+import { ChordList } from "./components/ChordList";
 
 export default function Chords() {
-  return (
-    <div>
-      <h1>Chords</h1>
-    </div>
-  );
+  const { type } = useParams<Params>();
+
+  return <div>{type ? <ChordList typeChord={type} /> : <>"Carregando"</>}</div>;
 }
