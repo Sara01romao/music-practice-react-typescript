@@ -1,138 +1,137 @@
 import {
   ChevronDown,
   ChevronLeft,
-  ChevronRight,
   ChevronUp,
   FileMusic,
+  MenuIcon,
   Metronome,
   Minus,
   Plus,
 } from "lucide-react";
 import { useState } from "react";
 import { NavLink } from "react-router-dom";
-import logo from "../assets/ms-logo.svg";
+import { progressionList } from "../data/progression";
 
 interface Chord {
   id: string;
   name: string;
+  type:string;
 }
 
 export function Menu() {
-  const [open, setOpen] = useState(true);
+  const [open, setOpen] = useState(false);
   const [openDropdown, setOpenDropdown] = useState(false);
 
-  const chords: Chord[] = [
-    { id: "a", name: "Lá maior" },
-    { id: "c", name: "Dó maior" },
-    { id: "d", name: "Ré maior" },
-  ];
+  const chords: Chord[] =  progressionList.map((item)=> { return {id:item.id, type: item.type, name: item.type === "major" ? "Maior": "Menor"}});
 
   return (
-    <aside
-      className={`h-screen bg-slate-900  p-4 transition-all duration-300 ${open ? "w-64" : "w-20"} justify-between border-e border-gray-100 bg-white`}
-    >
-      <div className="flex items-center justify-between mb-8 relative">
-        <img src={logo} alt="logo" />
+    <>
+      <button
+        onClick={() => setOpen(!open)}
+        className="fixed top-4 left-4  bg-white p-2 cursor-pointer hover:bg-gray-200 rounded shadow"
+      >
+        <MenuIcon size={24} />
+      </button>
 
+      <aside
+        className={`
+        fixed top-0 left-0
+        h-screen w-64
+        bg-white
+        border-r
+        border-gray-100
+        p-4
+        transition-transform duration-300
+        ${open ? "translate-x-0" : "-translate-x-full"}
+      `}
+      >
         <button
-          onClick={() => setOpen(!open)}
-          className={`border bg-white hover:bg-gray-300 cursor-pointer p-2 rounded absolute ${open ? "right-[-30px]" : "mt-10 right-[-40px]"}`}
-        >
-          {open ? <ChevronLeft size={20} /> : <ChevronRight size={20} />}
-        </button>
-      </div>
+        onClick={() => setOpen(!open)}
+        className={`absolute right-[-20px] top-2 cursor-pointer bg-white hover:bg-gray-200 p-2 rounded shadow ${open ? "block": "hidden"}`}
+      >
+        <ChevronLeft size={24} />
+      </button>
+        <div className="mb-4">
+          <p className="text-gray-400 text-sm mb-2">FERRAMENTA</p>
 
-      <div className="mb-4">
-        {open && <p className="text-gray-400 text-sm mb-2">FERRAMENTA</p>}
+          <NavLink
+            to="/metronome"
+            className={({ isActive }) =>
+              `flex items-center gap-3 p-2 rounded hover:bg-gray-200 ${
+                isActive ? "bg-gray-200 font-semibold text-[#1788c5]" : ""
+              }`
+            }
+          >
+            <Metronome size={20} />
+            <span>Metrônomo</span>
+          </NavLink>
+        </div>
 
-        <NavLink
-          to="/metronome"
-          className={({ isActive }) =>
-            `flex items-center gap-3 p-2 rounded hover:bg-gray-200 ${open ? "" : "justify-center"}  ${
-              isActive ? "bg-gray-200 font-semibold text-[#1788c5]" : ""
-            }`
-          }
-        >
-          <Metronome size={20} />
-          {open && <span>Metrônomo</span>}
-        </NavLink>
-      </div>
+        <div className="mb-4">
+          <p className="text-gray-400 text-sm mb-2">ACORDES</p>
 
-      <div className="mb-4">
-        {open && <p className="text-gray-400 text-sm mb-2">ACORDES</p>}
+          <NavLink
+            to="/chords/major"
+            className={({ isActive }) =>
+              `flex items-center gap-3 p-2 rounded hover:bg-gray-200 ${
+                isActive ? "bg-gray-200 font-semibold text-[#1788c5]" : ""
+              }`}
+          >
+            <Plus size={20} />
+            <span>Maiores</span>
+          </NavLink>
 
-        <NavLink
-          to="/chords/major"
-          className={({ isActive }) =>
-            `flex items-center gap-3 p-2 rounded hover:bg-gray-200 ${open ? "" : "justify-center"} ${
-              isActive ? "bg-gray-200 font-semibold text-[#1788c5]" : ""
-            }`
-          }
-        >
-          <Plus size={20} />
-          {open && <span>Maiores</span>}
-        </NavLink>
+          <NavLink
+            to="/chords/minor"
+            className={({ isActive }) =>
+              `flex items-center gap-3 p-2 rounded hover:bg-gray-200 ${
+                isActive ? "bg-gray-200 font-semibold text-[#1788c5]" : ""
+              }`}
+          >
+            <Minus size={20} />
+            <span>Menores</span>
+          </NavLink>
+        </div>
 
-        <NavLink
-          to="/chords/minor"
-          className={({ isActive }) =>
-            `flex items-center gap-3 p-2 rounded hover:bg-gray-200 ${open ? "" : "justify-center"} ${
-              isActive ? "bg-gray-200 font-semibold text-[#1788c5]" : ""
-            }`
-          }
-        >
-          <Minus size={20} />
-          {open && <span>Menores</span>}
-        </NavLink>
-      </div>
+        <hr className="mb-4 text-neutral-300" />
 
-      <hr className="mb-4 text-neutral-300" />
+        <div className="mb-4">
+          <p className="text-gray-400 text-sm mb-2">EXERCÍCIOS</p>
 
-      <div className="mb-4">
-        {open && <p className="text-gray-400 text-sm mb-2">EXERCÍCIOS</p>}
+          <button
+            onClick={() => setOpenDropdown(!openDropdown)}
+            className="flex items-center justify-between w-full p-2 hover:bg-gray-200 rounded"
+          >
+            <div className="flex items-center gap-3">
+              <FileMusic size={20} />
+              <span>Progressão</span>
+            </div>
 
-        <button
-          onClick={() => setOpenDropdown(!openDropdown)}
-          className={`flex  items-center w-full p-2 hover:bg-gray-300 rounded ${open ? "justify-between" : "justify-center"}`}
-        >
-          <div className="flex items-center gap-3">
-            <FileMusic size={20} className={open ? "text-gray-40" : ""} />
+            {openDropdown ? <ChevronUp size={20} /> : <ChevronDown size={20} />}
+          </button>
 
-            {open && <span>Progressão</span>}
-          </div>
-
-            <span>
-              {openDropdown ? (
-                <ChevronUp size={20} />
-              ) : (
-                <ChevronDown size={20} />
-              )}
-            </span>
-         
-        </button>
-
-        {openDropdown && (
-          <div className=" mt-2 flex flex-col gap-2 ">
-            {chords.map((chord) => (
-              <NavLink
-                key={chord.id}
-                to={`/exercise/major/${chord.id}`}
-                className={({ isActive }) =>
-                  `flex items-center ${
-                    open ? "gap-3 px-2" : "justify-center"
-                  } p-2 rounded hover:bg-gray-200 ${
-                    isActive ? "bg-gray-200 font-semibold text-[#1788c5]" : ""
-                  }`
-                }
-              >
-                <span className="font-semibold uppercase">{chord.id}</span>
-
-                {open && <span>{chord.name}</span>}
-              </NavLink>
-            ))}
-          </div>
-        )}
-      </div>
-    </aside>
+          {openDropdown && (
+            <div className="mt-2 flex flex-col gap-1">
+              {chords.map((chord) => (
+                <NavLink
+                  key={chord.id}
+                  to={`/exercise/${chord.type}/${chord.id}`}
+                  className={({ isActive }) =>
+                    `flex items-center gap-3 p-2 rounded hover:bg-gray-100 border-b-1 border-b-gray-200 ${
+                      isActive
+                        ? "bg-gray-200 font-semibold text-[#1788c5]"
+                        : ""
+                    }`
+                  }
+                >
+                  <span className="font-semibold capitalize w-5">{chord.id}</span>
+                  <span >{chord.name}</span>
+                </NavLink>
+              ))}
+            </div>
+          )}
+        </div>
+      </aside>
+    </>
   );
 }
