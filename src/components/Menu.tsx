@@ -41,13 +41,14 @@ export function Menu() {
         border-r
         border-gray-100
         p-4
+        overflow-y-auto
         transition-transform duration-300
         ${open ? "translate-x-0" : "-translate-x-full"}
       `}
       >
         <button
         onClick={() => setOpen(!open)}
-        className={`absolute right-[-20px] top-2 cursor-pointer bg-white hover:bg-gray-200 p-2 rounded shadow ${open ? "block": "hidden"}`}
+        className={`absolute right-0 z-40 top-2 cursor-pointer bg-white hover:bg-gray-200 p-2 rounded shadow ${open ? "block": "hidden"}`}
       >
         <ChevronLeft size={24} />
       </button>
