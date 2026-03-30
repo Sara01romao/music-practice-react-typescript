@@ -17,6 +17,7 @@ export function ChordDiagram({ chord }: ChordDiagramProps) {
       <span className="font-bold text-3xl">{chord}</span>
 
       <svg width="120" height="140">
+      
         {stringX.map((x, i) => (
           <line
             key={i}
@@ -30,7 +31,7 @@ export function ChordDiagram({ chord }: ChordDiagramProps) {
         ))}
 
         <line x1="15" y1="20" x2="100" y2="20" stroke="black" strokeWidth="4" />
-
+       
         {[30, 50, 70, 90, 110].map((y, i) => (
           <line
             key={i}
@@ -43,8 +44,29 @@ export function ChordDiagram({ chord }: ChordDiagramProps) {
           />
         ))}
 
+        {chordData.barre && (
+          <line
+            x1={stringX[chordData.barre.fromString - 1]}
+            x2={stringX[chordData.barre.toString - 1]}
+            y1={30 + (chordData.barre.fret - 1) * 20}
+            y2={30 + (chordData.barre.fret - 1) * 20}
+            stroke="black"
+            strokeWidth="10"
+            strokeLinecap="round"
+          />
+        )}
+
         {chordData.frets.map((fret, stringIndex) => {
           const x = stringX[stringIndex];
+
+          if (
+            chordData.barre &&
+            fret === chordData.barre.fret &&
+            stringIndex >= chordData.barre.fromString - 1 &&
+            stringIndex <= chordData.barre.toString - 1
+          ) {
+            return null;
+          }
 
           if (fret > 0) {
             const y = 30 + (fret - 1) * 20;
