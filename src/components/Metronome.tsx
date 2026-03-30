@@ -103,7 +103,7 @@ export function Metronome({prog}:Progression) {
 
   return (
     <div className="flex flex-col items-center gap-6 p-6">
-      <div className="max-w-[300px] w-full px-4 py-1 flex justify-between gap-4 border rounded-lg border-gray-300 ">
+      <div className={`max-w-[300px] w-full px-4 py-1 flex justify-between gap-4 border rounded-lg border-gray-300 ${isPlaying ? "bg-gray-100":"bg-white"}`}>
         <div className="flex flex-col items-center">
           <label htmlFor="bpm">BPM</label>
           <input
