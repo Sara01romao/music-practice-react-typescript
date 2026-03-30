@@ -7,7 +7,7 @@ export type Barre = {
 export type ChordType = {
   frets: number[];
   type: string;
-   barre?: Barre;
+  barre?: Barre;
 };
 
 export const chordList: Record<string, ChordType> = {
@@ -61,5 +61,17 @@ export const chordList: Record<string, ChordType> = {
     frets: [-1, 2, 4, 4, 3, 2],
     type: "minor",
     barre: { fret: 2, fromString: 6, toString: 1 },
+  },
+  
+  Bb: {
+    frets: [-1, 1, 3, 3, 3, 1],
+    type: "major",
+    barre: { fret: 1, fromString: 6, toString: 1 },
+  },
+
+  Bbm: {
+    frets: [-1, 1, 3, 3, 2, 1],
+    type: "minor",
+    barre: { fret: 1, fromString: 6, toString: 1 },
   },
 };
