@@ -26,7 +26,8 @@ A aplicação reúne ferramentas essenciais para o estudo, como um metrônomo pa
  Front-end
 ```
 React 
-Typescript 
+Typescript
+Tailwind
 Vite 
 Figma 
 ```
