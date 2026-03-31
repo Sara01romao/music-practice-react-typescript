@@ -6,26 +6,10 @@ import { Menu } from "./components/Menu";
 import Chords from "./pages/Chords/Chords";
 import MetronomePage from "./pages/Metronome/Metronome";
 import logo from "./assets/ms-logo.svg";
-import { useEffect, useRef} from "react";
+import { useWakeLock } from "./utils/useWakeLock";
 
 export function App() {
- const wakeLockRef = useRef<WakeLockSentinel | null>(null);
-
-  useEffect(() => {
-    const screenOn = async () => {
-      wakeLockRef.current = await navigator.wakeLock.request("screen");
-
-      wakeLockRef.current.addEventListener("release", () => {
-        screenOn(); 
-      });
-    };
-
-    screenOn();
-
-    return () => {
-      wakeLockRef.current?.release();
-    };
-  }, []);
+ useWakeLock();
   
   return (
     <BrowserRouter>
