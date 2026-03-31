@@ -35,13 +35,13 @@ export function Menu() {
 
       <aside
         className={`
-        fixed top-0 left-0
-        h-screen w-64
+        absolute top-0 left-0
+        min-h-[100vh] w-64
         bg-white
         border-r
         border-gray-100
         p-4
-        overflow-y-auto
+        overflow-y-scroll
         transition-transform duration-300
         ${open ? "translate-x-0" : "-translate-x-full"}
       `}
