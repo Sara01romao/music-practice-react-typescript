@@ -53,6 +53,7 @@ export function Metronome({prog}:Progression) {
     oscillator.stop(audioContext.currentTime + 0.1);
   }, []);
 
+
   useEffect(() => {
     if (!isPlaying) return;
 
@@ -87,6 +88,7 @@ export function Metronome({prog}:Progression) {
       setCurrentChord(novoIndice);
     }
   }, [currentBeat, isPlaying, progression]);
+  
 
   const toggleMetronome = async () => {
     await initAudioContext();
@@ -100,6 +102,13 @@ export function Metronome({prog}:Progression) {
 
     setIsPlaying(!isPlaying);
   };
+
+  useEffect(() => {
+    return () => {
+      setIsPlaying(false); 
+      setCurrentBeat(0);
+    };
+  }, [prog]);
 
   return (
     <div className="flex flex-col items-center gap-6 p-6">
