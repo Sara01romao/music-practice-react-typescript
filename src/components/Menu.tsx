@@ -19,7 +19,7 @@ interface Chord {
 }
 
 export function Menu() {
-  const [open, setOpen] = useState(true);
+  const [open, setOpen] = useState(false);
   const [openDropdown, setOpenDropdown] = useState(true);
 
   const chords: Chord[] =  progressionList.map((item)=> { return {id:item.id, type: item.type, name: item.type === "major" ? "Maior": "Menor"}});
