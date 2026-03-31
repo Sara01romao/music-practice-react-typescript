@@ -19,7 +19,7 @@ interface Chord {
 }
 
 export function Menu() {
-  const [open, setOpen] = useState(false);
+  const [open, setOpen] = useState(true);
   const [openDropdown, setOpenDropdown] = useState(true);
 
   const chords: Chord[] =  progressionList.map((item)=> { return {id:item.id, type: item.type, name: item.type === "major" ? "Maior": "Menor"}});
@@ -41,14 +41,15 @@ export function Menu() {
         border-r
         border-gray-100
         p-4
-        overflow-y-scroll
+        pt-10
+        overflow-y-auto
         transition-transform duration-300
         ${open ? "translate-x-0" : "-translate-x-full"}
       `}
       >
         <button
         onClick={() => setOpen(!open)}
-        className={`absolute right-0 z-40 top-2 cursor-pointer bg-white hover:bg-gray-200 p-2 rounded shadow ${open ? "block": "hidden"}`}
+        className={`absolute right-2 z-40 top-2 cursor-pointer bg-white hover:bg-gray-200 p-2 rounded shadow ${open ? "block": "hidden"}`}
       >
         <ChevronLeft size={24} />
       </button>
@@ -57,6 +58,7 @@ export function Menu() {
 
           <NavLink
             to="/metronome"
+            onClick={() => setOpen(!open)}
             className={({ isActive }) =>
               `flex items-center gap-3 p-2 rounded hover:bg-gray-200 ${
                 isActive ? "bg-gray-200 font-semibold text-[#1788c5]" : ""
@@ -73,6 +75,7 @@ export function Menu() {
 
           <NavLink
             to="/chords/major"
+            onClick={() => setOpen(!open)}
             className={({ isActive }) =>
               `flex items-center gap-3 p-2 rounded hover:bg-gray-200 ${
                 isActive ? "bg-gray-200 font-semibold text-[#1788c5]" : ""
@@ -84,6 +87,7 @@ export function Menu() {
 
           <NavLink
             to="/chords/minor"
+            onClick={() => setOpen(!open)}
             className={({ isActive }) =>
               `flex items-center gap-3 p-2 rounded hover:bg-gray-200 ${
                 isActive ? "bg-gray-200 font-semibold text-[#1788c5]" : ""
@@ -117,6 +121,7 @@ export function Menu() {
                 <NavLink
                   key={chord.id}
                   to={`/exercise/${chord.type}/${chord.id}`}
+                  onClick={() => setOpen(!open)}
                   className={({ isActive }) =>
                     `flex items-center gap-3 p-2 rounded hover:bg-gray-100 border-b-1 border-b-gray-200 ${
                       isActive
