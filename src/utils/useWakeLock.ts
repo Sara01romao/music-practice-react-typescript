@@ -1,25 +1,50 @@
 import { useEffect, useRef } from 'react';
 
-export const useWakeLock = (): void => {
+export const useWakeLock = (active: boolean): void => {
   const wakeLockRef = useRef<WakeLockSentinel | null>(null);
+  const isActiveRef = useRef(active);
 
-  const requestWakeLock = async (): Promise<void> => {
+  
+  useEffect(() => {
+    isActiveRef.current = active;
+  }, [active]);
+
+  const requestWakeLock = async () => {
+    if (!active) return;                      
     if (document.visibilityState !== 'visible') return;
 
-    const sentinel = await navigator.wakeLock.request('screen');
-    wakeLockRef.current = sentinel;
+    try {
+      const sentinel = await navigator.wakeLock.request('screen');
+      wakeLockRef.current = sentinel;
 
-    sentinel.addEventListener('release', () => {
-
-      requestWakeLock();
-    });
+      sentinel.addEventListener('release', () => {
+    
+        if (isActiveRef.current) {
+          requestWakeLock();
+        }
+      });
+    } catch (err) {
+      console.error('Erro ao solicitar Wake Lock:', err);
+      
+      if (isActiveRef.current) {
+        setTimeout(() => requestWakeLock(), 1000);
+      }
+    }
   };
 
   useEffect(() => {
-    requestWakeLock();
+    if (active) {
+      requestWakeLock();
+    } else {
+     
+      if (wakeLockRef.current) {
+        wakeLockRef.current.release();
+        wakeLockRef.current = null;
+      }
+    }
 
-    const handleVisibilityChange = (): void => {
-      if (document.visibilityState === 'visible') {
+    const handleVisibilityChange = () => {
+      if (document.visibilityState === 'visible' && active) {
         requestWakeLock();
       }
     };
@@ -33,5 +58,5 @@ export const useWakeLock = (): void => {
         wakeLockRef.current = null;
       }
     };
-  }, []);
+  }, [active]);
 };

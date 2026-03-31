@@ -6,11 +6,8 @@ import { Menu } from "./components/Menu";
 import Chords from "./pages/Chords/Chords";
 import MetronomePage from "./pages/Metronome/Metronome";
 import logo from "./assets/ms-logo.svg";
-import { useWakeLock } from "./utils/useWakeLock";
 
 export function App() {
- useWakeLock();
-  
   return (
     <BrowserRouter>
       <div className="w-full">

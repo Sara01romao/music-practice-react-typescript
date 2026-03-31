@@ -2,6 +2,7 @@ import { useEffect, useRef, useState, useCallback, useMemo } from "react";
 import { MetronomeSVG } from "./MetronomeSVG";
 import { ChordDiagram } from "./Chord";
 import { Pause, Play } from "lucide-react";
+import { useWakeLock } from "../utils/useWakeLock";
 
 type Progression = {
    prog?: string[];
@@ -18,6 +19,8 @@ export function Metronome({prog}:Progression) {
   
   const audioContextRef = useRef<AudioContext | null>(null);
   const compassCountRef = useRef(0);
+
+  useWakeLock(isPlaying);
 
   const initAudioContext = useCallback(async () => {
     if (!audioContextRef.current) {
